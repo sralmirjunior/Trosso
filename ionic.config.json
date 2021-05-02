@@ -1,0 +1,7 @@
+{
+  "name": "Trosso",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
