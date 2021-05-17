@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <!--Menu com a logo-->
+      <!--Menu com o titulo da modal e botão de voltar-->
       <ion-toolbar color="primary" class="ion-text-left">
         <ion-button fill="clear" slot="start" @click="dismissModal()">
           <ion-icon
@@ -13,7 +13,7 @@
         <ion-title color="light">{{ modalTitle }}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <!--Conteudo-->
+    <!--Conteudo da modal-->
     <ion-content :fullscreen="true">
       <slot />
     </ion-content>

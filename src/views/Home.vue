@@ -2,8 +2,9 @@
   <layout-page pageTitle="Trosso">
     <!-- Conteudo da Pagina Home -->
     <div id="container">
+      <!-- Mensagem caso não exista quadros -->
       <span v-if="quadros == null">sem quadros existentes</span>
-
+      <!-- Lista dos quadros existentes -->
       <ion-item v-else v-for="quadro in quadros" :key="quadro.id">
         <ion-label>{{ quadro.nome }}</ion-label>
       </ion-item>
@@ -13,7 +14,7 @@
       <ion-toolbar color="primary">
         <ion-grid>
           <ion-row class="ion-justify-content-evenly ion-align-items-center">
-            <!-- Botão de adicionar quadro -->
+            <!-- Botão que chama a modal de adicionar quadros -->
             <ion-button color="primary" fill="clear" @click="setOpen(true)">
               <ion-col size="10">
                 <ion-label color="light">Adicionar quadro </ion-label>
@@ -22,8 +23,10 @@
                 <ion-icon color="light" :icon="addCircleOutline"></ion-icon>
               </ion-col>
             </ion-button>
+            <!-- Modal base -->
             <ion-modal :is-open="isOpenRef" @didDismiss="setOpen(false)">
               <layout-modal modalTitle="Adicionar Quadro">
+                <!-- Formulario de adicionar quadros -->
                 <form-add-board />
               </layout-modal>
             </ion-modal>

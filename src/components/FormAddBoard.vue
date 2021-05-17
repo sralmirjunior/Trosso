@@ -1,5 +1,7 @@
+<!-- Form de Adicionar quadros -->
 <template>
   <form>
+    <!-- Input do nome do quadro -->
     <ion-item>
       <ion-label position="stacked">Nome do Quadro</ion-label>
       <ion-input
@@ -8,6 +10,7 @@
         required="true"
       ></ion-input>
     </ion-item>
+    <!-- Botão de enviar -->
     <ion-button expand="block" color="primary">
       Salvar
     </ion-button>
