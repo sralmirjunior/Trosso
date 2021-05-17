@@ -1,14 +1,22 @@
 <template>
   <layout-page pageTitle="Trosso">
     <!-- Conteudo da Pagina Home -->
-    <div id="container">
+    <div class="container" full>
       <!-- Mensagem caso não exista quadros -->
       <span v-if="quadros == null">sem quadros existentes</span>
       <!-- Lista dos quadros existentes -->
-      <ion-item v-else v-for="quadro in quadros" :key="quadro.id">
+      <ion-button
+        v-else
+        lines="none"
+        color="secondary"
+        v-for="quadro in quadros"
+        :key="quadro.id"
+        expand="block"
+      >
         <ion-label>{{ quadro.nome }}</ion-label>
-      </ion-item>
+      </ion-button>
     </div>
+
     <!-- Footer -->
     <template v-slot:footer>
       <ion-toolbar color="primary">
@@ -47,7 +55,7 @@ import {
   IonButton,
   IonToolbar,
   IonModal,
-  IonItem,
+  //IonItem,
 } from "@ionic/vue";
 import { ref } from "vue";
 import LayoutPage from "../components/LayoutPage";
@@ -69,13 +77,14 @@ export default {
     IonToolbar,
     IonModal,
     FormAddBoard,
-    IonItem,
+    // IonItem,
   },
   setup() {
     const isOpenRef = ref(false);
     const setOpen = (state) => {
       return (isOpenRef.value = state);
     };
+
     return { isOpenRef, setOpen, addCircleOutline };
   },
   created() {
@@ -94,22 +103,32 @@ export default {
 </script>
 
 <style scoped>
-#container {
+.container {
   text-align: center;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding-top: 10%;
 }
 
-#container span {
+.container span {
   font-size: 16px;
   line-height: 22px;
   color: var(--ion-color-medium);
-  margin: 0;
   text-transform: uppercase;
   font-weight: 600;
+  transform: translateX(40%);
+  position: absolute;
+  display: block;
+  margin-top: 55%;
+}
+
+.container ion-button {
+  text-align: center center;
+  margin: 30px 40px;
+  min-height: 100px;
+}
+
+.container ion-button ion-label {
+  margin: 0;
+  text-transform: uppercase;
 }
 
 ion-footer ion-toolbar {
