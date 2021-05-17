@@ -47,6 +47,7 @@ import {
   IonButton,
   IonToolbar,
   IonModal,
+  IonItem,
 } from "@ionic/vue";
 import { ref } from "vue";
 import LayoutPage from "../components/LayoutPage";
@@ -68,6 +69,7 @@ export default {
     IonToolbar,
     IonModal,
     FormAddBoard,
+    IonItem,
   },
   setup() {
     const isOpenRef = ref(false);
