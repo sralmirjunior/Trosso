@@ -15,7 +15,7 @@
     </ion-header>
     <!--Conteudo da modal-->
     <ion-content :fullscreen="true">
-      <slot />
+      <slot @close="dismissModal()" />
     </ion-content>
   </ion-page>
 </template>

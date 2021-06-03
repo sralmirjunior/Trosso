@@ -5,6 +5,7 @@
     <ion-item>
       <ion-label position="stacked">Nome do Quadro</ion-label>
       <ion-input
+        v-model="board_name"
         inputmode="text"
         placeholder="Insira o nome do Quadro"
         required="true"
@@ -29,22 +30,25 @@ export default {
   },
   data() {
     return {
-      boards: null,
+      board_name: "",
     };
   },
-  ionViewWillEnter() {
-    this.loadBoards();
-  },
   methods: {
-    //Função para carregar os quadros da api
     save() {
-      axiosHttp
-        .get("trosso.php", { params: { op: "createBoard" } })
-        .then((resp) => {
-          if (resp.data.sucesso) {
-            this.boards = resp.data.boards;
-          }
-        });
+      if (this.board_name != null) {
+        //Função para carregar os quadros da api
+        let form = new FormData();
+        form.append("board_name", this.board_name);
+        axiosHttp
+          .post("trosso.php", form, {
+            params: { op: "createBoard" },
+          })
+          .then((resp) => {
+            if (resp.data.sucesso) {
+              this.$emit("close");
+            }
+          });
+      }
     },
   },
 };

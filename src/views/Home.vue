@@ -3,17 +3,17 @@
     <!-- Conteudo da Pagina Home -->
     <div class="container" full>
       <!-- Mensagem caso não exista quadros -->
-      <span v-if="quadros == null">sem quadros existentes</span>
+      <span v-if="boards == null">sem quadros existentes</span>
       <!-- Lista dos quadros existentes -->
       <ion-button
         v-else
         lines="none"
         color="secondary"
-        v-for="quadro in quadros"
-        :key="quadro.id"
+        v-for="board in boards"
+        :key="board.board_id"
         expand="block"
       >
-        <ion-label>{{ quadro.nome }}</ion-label>
+        <ion-label>{{ board.board_name }}</ion-label>
       </ion-button>
     </div>
 
@@ -35,7 +35,7 @@
             <ion-modal :is-open="isOpenRef" @didDismiss="setOpen(false)">
               <layout-modal modalTitle="Adicionar Quadro">
                 <!-- Formulario de adicionar quadros -->
-                <form-add-board />
+                <form-add-board @close="setOpen(false), loadBoards()" />
               </layout-modal>
             </ion-modal>
           </ion-row>
@@ -61,8 +61,8 @@ import { ref } from "vue";
 import LayoutPage from "../components/LayoutPage";
 import LayoutModal from "../components/LayoutModal";
 import { addCircleOutline } from "ionicons/icons";
-import FormAddBoard from "../components/FormAddBoard.vue";
-
+import FormAddBoard from "../components/FormAddBoard";
+import { axiosHttp } from "../tools/axios.js";
 export default {
   name: "Home",
   components: {
@@ -79,25 +79,36 @@ export default {
     FormAddBoard,
     // IonItem,
   },
+  data() {
+    return {
+      boards: null,
+    };
+  },
+  ionViewWillEnter() {
+    this.loadBoards();
+  },
+  methods: {
+    //Função para carregar os quadros da api
+    loadBoards() {
+      axiosHttp
+        .get("trosso.php", { params: { op: "getBoards" } })
+        .then((resp) => {
+          if (resp.data.sucesso) {
+            this.boards = resp.data.boards;
+            console.log(this.boards);
+          }
+        });
+    },
+  },
   setup() {
+    //Variavel para checar se a modal está aberta
     const isOpenRef = ref(false);
+    //Função para definir o estado da modal
     const setOpen = (state) => {
       return (isOpenRef.value = state);
     };
 
     return { isOpenRef, setOpen, addCircleOutline };
-  },
-  created() {
-    this.quadros = [
-      {
-        id: 1,
-        nome: "quadro teste 01",
-      },
-      {
-        id: 2,
-        nome: "quadro teste 02",
-      },
-    ];
   },
 };
 </script>
