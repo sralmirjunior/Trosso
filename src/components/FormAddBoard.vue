@@ -11,7 +11,7 @@
       ></ion-input>
     </ion-item>
     <!-- Botão de enviar -->
-    <ion-button expand="block" color="primary">
+    <ion-button expand="block" color="primary" @click="save()">
       Salvar
     </ion-button>
   </form>
@@ -19,13 +19,33 @@
 
 <script>
 import { IonButton, IonLabel, IonItem, IonInput } from "@ionic/vue";
-
+import { axiosHttp } from "../tools/axios.js";
 export default {
   components: {
     IonItem,
     IonButton,
     IonLabel,
     IonInput,
+  },
+  data() {
+    return {
+      boards: null,
+    };
+  },
+  ionViewWillEnter() {
+    this.loadBoards();
+  },
+  methods: {
+    //Função para carregar os quadros da api
+    save() {
+      axiosHttp
+        .get("trosso.php", { params: { op: "createBoard" } })
+        .then((resp) => {
+          if (resp.data.sucesso) {
+            this.boards = resp.data.boards;
+          }
+        });
+    },
   },
 };
 </script>
