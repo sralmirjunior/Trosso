@@ -2,19 +2,7 @@
   <layout-page pageTitle="Trosso">
     <!-- Conteudo da Pagina Home -->
     <div class="container" full>
-      <!-- Mensagem caso não exista quadros -->
-      <span v-if="boards == null">sem quadros existentes</span>
-      <!-- Lista dos quadros existentes -->
-      <ion-button
-        v-else
-        lines="none"
-        color="secondary"
-        v-for="board in boards"
-        :key="board.board_id"
-        expand="block"
-      >
-        <ion-label>{{ board.board_name }}</ion-label>
-      </ion-button>
+      <span>Listas</span>
     </div>
 
     <!-- Footer -->
@@ -85,11 +73,11 @@ export default {
     };
   },
   ionViewWillEnter() {
-    this.loadBoards();
+    this.loadLists();
   },
   methods: {
     //Função para carregar os quadros da api
-    loadBoards() {
+    loadLists() {
       axiosHttp
         .get("trosso.php", { params: { op: "getBoards" } })
         .then((resp) => {
