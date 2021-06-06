@@ -1,7 +1,7 @@
 <template>
-  <ion-card>
-    <ion-item v-if="!editing_list" class="" expand="block">
-      <div>{{ list.name }}</div>
+  <ion-card class="list">
+    <ion-item v-if="!editing_list" expand="block" lines="none">
+      <ion-label>{{ list.name }}</ion-label>
       <ion-buttons slot="end">
         <ion-button @click="editing_list = true" color="warning">
           E
@@ -11,21 +11,21 @@
         </ion-button>
       </ion-buttons>
     </ion-item>
-    <div v-else>
+    <ion-item v-else>
       <textarea
         v-model="listName"
         placeholder="Adicione um texto para este card"
       >
       </textarea>
-      <div class="">
+      <ion-buttons class="">
         <ion-button @click="listUpdate" color="success">
           Salvar
         </ion-button>
         <ion-button @click="editing_list = false" color="tertiary">
           Cancelar
         </ion-button>
-      </div>
-    </div>
+      </ion-buttons>
+    </ion-item>
 
     <ion-list>
       <Card
@@ -47,7 +47,14 @@
 </template>
 
 <script>
-import { IonCard, IonList, IonButtons, IonItem, IonButton } from "@ionic/vue";
+import {
+  IonCard,
+  IonList,
+  IonButtons,
+  IonItem,
+  IonButton,
+  IonLabel,
+} from "@ionic/vue";
 import Card from "./Card.vue";
 import CardAddButton from "./CardAddButton.vue";
 import CardAddEditor from "./CardAddEditor.vue";
@@ -65,6 +72,7 @@ export default {
     IonButtons,
     IonItem,
     IonButton,
+    IonLabel,
   },
   data() {
     return {
@@ -105,7 +113,16 @@ export default {
 </script>
 <style scoped>
 .list {
-  width: 250px;
-  min-width: 250px;
+}
+
+.list ion-item {
+  padding: 0;
+  border: solid 1px;
+  border-style: none none solid none;
+  border-color: var(--ion-color-medium);
+}
+
+ion-list {
+  padding: 0;
 }
 </style>

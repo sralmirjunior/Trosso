@@ -1,14 +1,17 @@
 <template>
   <layout-page pageBackLink="/home" :pageTitle="board_name">
-    <div class="">
-      <div class="">
-        <div v-if="!lists.length">
-          <span>Nenhuma Lista</span>
-        </div>
-        <div v-if="lists.length">
+    <div full>
+      <ion-grid class="">
+        <ion-row class="ion-justify-content-center">
+          <ion-col v-if="lists.length == 0" class="ion-text-center">
+            <span>Nenhuma Lista</span>
+          </ion-col>
+        </ion-row>
+        <div v-if="lists.length != 0">
           <List
             v-for="list in lists"
             :key="list.id"
+            s
             :list="list"
             @card-added="loadLists"
             @card-updated="loadLists"
@@ -17,14 +20,14 @@
             @list-deleted="loadLists"
           ></List>
         </div>
-      </div>
+      </ion-grid>
     </div>
     <!-- Footer -->
     <template v-slot:footer>
       <ion-toolbar color="primary">
         <ion-grid>
           <ion-row class="ion-justify-content-evenly ion-align-items-center">
-            <!-- Botão que chama a modal de adicionar quadros -->
+            <!-- Botão que chama a modal de adicionar lista -->
             <ion-button color="primary" fill="clear" @click="setOpen(true)">
               <ion-col size="10">
                 <ion-label color="light">Adicionar lista </ion-label>
@@ -36,7 +39,7 @@
             <!-- Modal base -->
             <ion-modal :is-open="isOpenRef" @didDismiss="setOpen(false)">
               <layout-modal modalTitle="Adicionar Lista">
-                <!-- Formulario de adicionar quadros -->
+                <!-- Formulario de adicionar lista -->
                 <form-add-List
                   :board_id="board_id"
                   @close="setOpen(false), loadLists()"
@@ -122,20 +125,12 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-}
-
-.container span {
+ion-grid span {
   font-size: 16px;
   line-height: 22px;
   color: var(--ion-color-medium);
   text-transform: uppercase;
   font-weight: 600;
-  transform: translateX(40%);
-  position: absolute;
-  display: block;
-  margin-top: 55%;
 }
 
 .container ion-button {

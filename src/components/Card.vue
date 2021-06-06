@@ -3,16 +3,17 @@
     <ion-item v-if="!editing" class="">
       <div>{{ description }}</div>
       <div class="">
-        <ion-button end @click="editing = true" color="warning">
+        <ion-button @click="editing = true" color="warning">
           E
         </ion-button>
-        <ion-button end @click="cardDelete" color="danger">
+        <ion-button @click="cardDelete" color="danger">
           D
         </ion-button>
       </div>
     </ion-item>
     <div v-else>
       <textarea
+        maxlength="50"
         v-model="description"
         placeholder="Adicione um texto para este card"
         ref="card"

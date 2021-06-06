@@ -5,6 +5,7 @@
     <ion-item>
       <ion-label position="stacked">Nome do Quadro</ion-label>
       <ion-input
+        maxlength="25"
         v-model="board_name"
         inputmode="text"
         placeholder="Insira o nome do Quadro"

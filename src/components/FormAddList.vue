@@ -6,6 +6,7 @@
       <ion-label position="stacked">Nome da Lista</ion-label>
       <ion-input
         v-model="list_name"
+        maxlength="25"
         inputmode="text"
         placeholder="Insira o nome da lista"
         required="true"

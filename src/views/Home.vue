@@ -23,7 +23,7 @@
       <ion-toolbar color="primary">
         <ion-grid>
           <ion-row class="ion-justify-content-evenly ion-align-items-center">
-            <!-- Botão que chama a modal de adicionar quadros -->
+            <!-- Botão que chama a modal de adicionar quadro -->
             <ion-button color="primary" fill="clear" @click="setOpen(true)">
               <ion-col size="10">
                 <ion-label color="light">Adicionar quadro </ion-label>
@@ -35,7 +35,7 @@
             <!-- Modal base -->
             <ion-modal :is-open="isOpenRef" @didDismiss="setOpen(false)">
               <layout-modal modalTitle="Adicionar Quadro">
-                <!-- Formulario de adicionar quadros -->
+                <!-- Formulario de adicionar quadro -->
                 <form-add-board @close="setOpen(false), loadBoards()" />
               </layout-modal>
             </ion-modal>
