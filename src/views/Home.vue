@@ -7,13 +7,14 @@
       <!-- Lista dos quadros existentes -->
       <ion-button
         v-else
+        :router-link="'/board/' + board.id + '/' + board.name"
         lines="none"
         color="secondary"
         v-for="board in boards"
-        :key="board.board_id"
+        :key="board.id"
         expand="block"
       >
-        <ion-label>{{ board.board_name }}</ion-label>
+        <ion-label>{{ board.name }}</ion-label>
       </ion-button>
     </div>
 
@@ -88,7 +89,7 @@ export default {
     this.loadBoards();
   },
   methods: {
-    //Função para carregar os quadros da api
+    //loadBoards carrega os quadros vindos da api
     loadBoards() {
       axiosHttp
         .get("trosso.php", { params: { op: "getBoards" } })
@@ -101,7 +102,7 @@ export default {
     },
   },
   setup() {
-    //Variavel para checar se a modal está aberta
+    //isOpenRef serve para setar o estado da modal, inicialmente falso
     const isOpenRef = ref(false);
     //Função para definir o estado da modal
     const setOpen = (state) => {

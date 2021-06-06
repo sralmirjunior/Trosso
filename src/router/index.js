@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import home from '../views/Home.vue';
-import board from '../views/Board.vue'
+import board from '../views/Board.vue';
+import notFound from '../views/404.vue'
 
 const routes = [
   {
@@ -13,10 +14,12 @@ const routes = [
     component: home
   },
   {
-    path: '/board/:id',
+    path: '/board/:id/:name',
     name: 'board',
-    component: board
-  }
+    component: board,
+  },
+  { path: '/404', component: notFound },
+  { path: '/:catchAll(.*)', redirect: '/404' },
 
 ]
 const router = createRouter({

@@ -6,9 +6,9 @@ $resp = array();
 $resp["sucesso"] = true;
 $resp["mensagem"] = "";
 
-$host = "127.0.0.1:3307";
+$host = "localhost:3306";
 $user = "root";
-$pass = "1234";
+$pass = "";
 $db   = "trosso";
 
 $connection = new mysqli($host, $user, $pass, $db);
@@ -25,8 +25,8 @@ if (isset($_GET["op"])) {
 }
 switch ($op) {
     case 'getBoards':
-        // Obtendo quadros existentes
-        $sql_query = "SELECT id as board_id ,name as board_name FROM boards;";
+        // Obter quadros existentes
+        $sql_query = "SELECT id ,name  FROM boards;";
         if (($sql_query_result = $connection->query($sql_query))) {
             $boards = array();
             while ($board = $sql_query_result->fetch_assoc()) {
@@ -36,7 +36,7 @@ switch ($op) {
         }
         break;
     case 'createBoard':
-        // Obtendo quadros existentes
+        // Criação do quadro
         $boardName = $_POST["board_name"];
         $sql_query = "INSERT INTO boards VALUES (null, '$boardName')";
         if (!($connection->query($sql_query))) {
@@ -44,7 +44,70 @@ switch ($op) {
             $resp["mensagem"] = $connection->error . $sql_query;
         }
         break;
+    case 'getLists':
+        //Obter Lista(s) do quadro, caso existam
+        $boardId = $_GET["board_id"];
+        $sql_query_lists = "SELECT id, name FROM lists where fk_board_id = $boardId";
+        if (($sql_query_lists_result = $connection->query($sql_query_lists))) {
+            $lists = array();
+            while ($list = $sql_query_lists_result->fetch_assoc()) {
+                //Obtendo cartões da Lista caso existam
+                $sql_query_cards = "SELECT id, description FROM cards where fk_list_id = $list[id]";
+                if (($sql_query_cards_result = $connection->query($sql_query_cards))) {
+                    $cards = array();
+                    while ($card = $sql_query_cards_result->fetch_assoc()) {
+                        array_push($cards, $card);
+                    }
+                    $list["cards"] = $cards;
+                }
+                array_push($lists, $list);
+            }
+            $resp["lists"] = $lists;
+        }
+
+        break;
+    case 'createList':
+        // Criando Lista
+        $listName = $_POST["list_name"];
+        $boardId = $_POST["board_id"];
+        $sql_query = "INSERT INTO lists VALUES (null, '$listName',$boardId)";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
+    case 'createCard':
+        // Criando Lista
+        $cardDescription = $_POST["card_description"];
+        $listId = $_POST["list_id"];
+        $sql_query = "INSERT INTO cards VALUES (null, '$cardDescription',$listId)";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
+    case 'updateCard':
+        // Criando Lista
+        $cardId = $_POST["card_id"];
+        $cardDescription = $_POST["card_description"];
+        $sql_query = "UPDATE cards SET description = '$cardDescription' WHERE id = $cardId";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
+    case 'deleteCard':
+        // Criando Lista
+        $cardId = $_GET["card_id"];
+        $sql_query = "DELETE FROM cards WHERE id = $cardId;";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
     default:
+        $resp["sucesso"] = false;
+        $resp["mensagem"] = "Erro: Opção invalida";
         break;
 }
 

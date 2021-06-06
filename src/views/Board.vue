@@ -1,10 +1,22 @@
 <template>
-  <layout-page pageTitle="Trosso">
-    <!-- Conteudo da Pagina Home -->
-    <div class="container" full>
-      <span>Listas</span>
+  <layout-page pageBackLink="/home" :pageTitle="board_name">
+    <div class="">
+      <div class="">
+        <div v-if="!lists.length">
+          <span>Nenhuma Lista</span>
+        </div>
+        <div v-if="lists.length">
+          <List
+            v-for="list in lists"
+            :key="list.id"
+            :list="list"
+            @card-added="loadLists"
+            @card-updated="loadLists"
+            @card-deleted="loadLists"
+          ></List>
+        </div>
+      </div>
     </div>
-
     <!-- Footer -->
     <template v-slot:footer>
       <ion-toolbar color="primary">
@@ -13,7 +25,7 @@
             <!-- Botão que chama a modal de adicionar quadros -->
             <ion-button color="primary" fill="clear" @click="setOpen(true)">
               <ion-col size="10">
-                <ion-label color="light">Adicionar quadro </ion-label>
+                <ion-label color="light">Adicionar lista </ion-label>
               </ion-col>
               <ion-col size="2">
                 <ion-icon color="light" :icon="addCircleOutline"></ion-icon>
@@ -21,9 +33,12 @@
             </ion-button>
             <!-- Modal base -->
             <ion-modal :is-open="isOpenRef" @didDismiss="setOpen(false)">
-              <layout-modal modalTitle="Adicionar Quadro">
+              <layout-modal modalTitle="Adicionar Lista">
                 <!-- Formulario de adicionar quadros -->
-                <form-add-board @close="setOpen(false), loadBoards()" />
+                <form-add-List
+                  :board_id="board_id"
+                  @close="setOpen(false), loadLists()"
+                />
               </layout-modal>
             </ion-modal>
           </ion-row>
@@ -43,17 +58,17 @@ import {
   IonButton,
   IonToolbar,
   IonModal,
-  //IonItem,
 } from "@ionic/vue";
 import { ref } from "vue";
 import LayoutPage from "../components/LayoutPage";
 import LayoutModal from "../components/LayoutModal";
 import { addCircleOutline } from "ionicons/icons";
-import FormAddBoard from "../components/FormAddBoard";
+import FormAddList from "../components/FormAddList";
 import { axiosHttp } from "../tools/axios.js";
+import List from "../components/List.vue";
 export default {
-  name: "Home",
   components: {
+    List,
     LayoutPage,
     LayoutModal,
     IonGrid,
@@ -64,12 +79,13 @@ export default {
     IonButton,
     IonToolbar,
     IonModal,
-    FormAddBoard,
-    // IonItem,
+    FormAddList,
   },
   data() {
     return {
-      boards: null,
+      lists: [],
+      board_id: parseInt(this.$route.params.id),
+      board_name: this.$route.params.name,
     };
   },
   ionViewWillEnter() {
@@ -79,11 +95,13 @@ export default {
     //Função para carregar os quadros da api
     loadLists() {
       axiosHttp
-        .get("trosso.php", { params: { op: "getBoards" } })
+        .get("trosso.php", {
+          params: { op: "getLists", board_id: this.board_id },
+        })
         .then((resp) => {
           if (resp.data.sucesso) {
-            this.boards = resp.data.boards;
-            console.log(this.boards);
+            this.lists = resp.data.lists;
+            console.log(this.lists);
           }
         });
     },
