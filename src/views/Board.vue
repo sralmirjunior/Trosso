@@ -13,6 +13,8 @@
             @card-added="loadLists"
             @card-updated="loadLists"
             @card-deleted="loadLists"
+            @list-updated="loadLists"
+            @list-deleted="loadLists"
           ></List>
         </div>
       </div>

@@ -76,6 +76,25 @@ switch ($op) {
             $resp["mensagem"] = $connection->error . $sql_query;
         }
         break;
+    case 'updateList':
+        // Criando Lista
+        $listId = $_POST["list_id"];
+        $listName = $_POST["list_name"];
+        $sql_query = "UPDATE lists SET name = '$listName' WHERE lists.id = $listId";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
+    case 'deleteList':
+        // Criando Lista
+        $listId = $_GET["list_id"];
+        $sql_query = "DELETE FROM lists WHERE id = $listId;";
+        if (!($connection->query($sql_query))) {
+            $resp["sucesso"] = false;
+            $resp["mensagem"] = $connection->error . $sql_query;
+        }
+        break;
     case 'createCard':
         // Criando Lista
         $cardDescription = $_POST["card_description"];

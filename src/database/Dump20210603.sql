@@ -1,99 +1,120 @@
-CREATE DATABASE  IF NOT EXISTS `trosso` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `trosso`;
--- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1    Database: trosso
--- ------------------------------------------------------
--- Server version	8.0.24
+-- Host: 127.0.0.1:3306
+-- Tempo de geração: 06-Jun-2021 às 10:00
+-- Versão do servidor: 5.7.31
+-- versão do PHP: 7.3.21
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `boards`
+-- Banco de dados: `trosso`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `boards`
 --
 
 DROP TABLE IF EXISTS `boards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `boards` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `boards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `boards`
+-- Extraindo dados da tabela `boards`
 --
 
-LOCK TABLES `boards` WRITE;
-/*!40000 ALTER TABLE `boards` DISABLE KEYS */;
-INSERT INTO `boards` VALUES (1,'quadro teste'),(2,''),(3,'test'),(4,'intencao'),(5,'test'),(6,'test 2'),(7,'test 4'),(8,'criar');
-/*!40000 ALTER TABLE `boards` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `boards` (`id`, `name`) VALUES
+(1, 'quadro teste'),
+(3, 'test'),
+(4, 'intencao'),
+(5, 'test'),
+(6, 'test 2'),
+(7, 'test 4'),
+(8, 'criar');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `cards`
+-- Estrutura da tabela `cards`
 --
 
 DROP TABLE IF EXISTS `cards`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cards` (
-  `id` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `cards` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `fk_list_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_list_id` (`fk_list_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `cards`
+-- Extraindo dados da tabela `cards`
 --
 
-LOCK TABLES `cards` WRITE;
-/*!40000 ALTER TABLE `cards` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cards` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `cards` (`id`, `description`, `fk_list_id`) VALUES
+(5, 'seriooo', 10),
+(7, 'heaudhauhdead', 14);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `lists`
+-- Estrutura da tabela `lists`
 --
 
 DROP TABLE IF EXISTS `lists`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `lists` (
-  `id` int NOT NULL,
+CREATE TABLE IF NOT EXISTS `lists` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `fk_board_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_board_id` (`fk_board_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `lists`
+-- Extraindo dados da tabela `lists`
 --
 
-LOCK TABLES `lists` WRITE;
-/*!40000 ALTER TABLE `lists` DISABLE KEYS */;
-/*!40000 ALTER TABLE `lists` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `lists` (`id`, `name`, `fk_board_id`) VALUES
+(3, 'primeira lista', 3),
+(4, 'nova lista', 7),
+(10, '1234', 4),
+(11, '1234', 8),
+(12, '1234', 7),
+(13, '13451345', 7),
+(14, 'oloco meu', 1);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- Restrições para despejos de tabelas
+--
+
+--
+-- Limitadores para a tabela `cards`
+--
+ALTER TABLE `cards`
+  ADD CONSTRAINT `fk_card_id_list_id` FOREIGN KEY (`fk_list_id`) REFERENCES `lists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Limitadores para a tabela `lists`
+--
+ALTER TABLE `lists`
+  ADD CONSTRAINT `fk_list_id_board_id` FOREIGN KEY (`fk_board_id`) REFERENCES `boards` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2021-06-03 22:23:06

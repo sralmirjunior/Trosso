@@ -18,12 +18,12 @@
         ref="card"
       >
       </textarea>
-      <div class="flex">
+      <div class="">
         <ion-button @click="cardUpdate" color="success">
           Salvar
         </ion-button>
         <ion-button @click="editing = false" color="tertiary">
-          Cancel
+          Cancelar
         </ion-button>
       </div>
     </div>

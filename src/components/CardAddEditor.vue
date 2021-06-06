@@ -5,12 +5,12 @@
       v-model="description"
       ref="card"
     ></textarea>
-    <div class="flex">
+    <div class="">
       <ion-button @click="createCard" class="">
         Adicionar cartão
       </ion-button>
       <ion-button @click="closed" class="">
-        Cancel
+        Cancelar
       </ion-button>
     </div>
   </div>
